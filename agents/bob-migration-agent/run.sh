@@ -39,6 +39,10 @@ if [ -z "${BOBSHELL_API_KEY:-}" ]; then
     exit 1
 fi
 
+if [ -n "${BOBSHELL_URL:-}" ]; then
+    echo "Using Bob CLI URL: ${BOBSHELL_URL}"
+fi
+
 # Read prompt template and substitute framework variables
 PROMPT_TEMPLATE="${AGENT_BIN}/prompt.txt"
 
@@ -55,12 +59,12 @@ MIGRATION_PROMPT=$(cat "${PROMPT_TEMPLATE}" | \
 # Change to work directory
 cd "${SCARF_WORK_DIR}"
 
-echo "Running Bob CLI migration..."
+echo "Running Bob CLI migration with file modification enabled (--yolo)..."
 echo ""
 
 # Execute Bob CLI with migration prompt
-# Bob CLI will analyze files in the current directory and make changes
-bob -p "${MIGRATION_PROMPT}"
+# --yolo flag enables file writing and updates
+bob -p "${MIGRATION_PROMPT}" --yolo
 
 # Check if Bob CLI succeeded
 if [ $? -eq 0 ]; then
@@ -72,3 +76,5 @@ else
     echo "ERROR: Migration failed!"
     exit 1
 fi
+
+# Made with Bob
