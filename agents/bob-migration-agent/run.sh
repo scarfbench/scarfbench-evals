@@ -4,6 +4,15 @@ set -euo pipefail
 # Resolve agent bin directory
 AGENT_BIN="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Load Bob CLI environment variables from .bobenv file
+BOBENV_FILE="${AGENT_BIN}/.bobenv"
+if [ -f "${BOBENV_FILE}" ]; then
+    echo "Loading Bob CLI environment variables from .bobenv..."
+    source "${BOBENV_FILE}"
+else
+    echo "WARNING: .bobenv file not found at ${BOBENV_FILE}"
+fi
+
 # Environment variables set by scarf CLI:
 # - ${SCARF_WORK_DIR}       -> Work directory for agent outputs
 # - ${SCARF_FRAMEWORK_TO}   -> Target framework
