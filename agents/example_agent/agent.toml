@@ -1,3 +1,4 @@
 name        = "example-agent"
 description = "An example agent that demonstrates how to implement a simple agent using the ScarfBench framework."
 entrypoint  = "./run.sh"  # <-- Relative to the current directory.
+k           = 1  # The number of times to run a conversion.
