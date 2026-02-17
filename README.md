@@ -1,4 +1,4 @@
-# Structuing Solutions for ScarfBench
+# Structuring Solutions for ScarfBench
 
 This document describes how to structure an **agent implementation** so it can be executed by the `scarf` CLI during evaluation runs.
 
@@ -77,3 +77,4 @@ python3 -m your_agent.py
   - exit code `0` on success
   - non-zero on failure
 - Must only write application changes to the provided output directory (as specified by scarf `$SCARF_WORK_DIR`).
+
