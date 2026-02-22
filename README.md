@@ -77,4 +77,3 @@ python3 -m your_agent.py
   - exit code `0` on success
   - non-zero on failure
 - Must only write application changes to the provided output directory (as specified by scarf `$SCARF_WORK_DIR`).
-
