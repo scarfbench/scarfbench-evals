@@ -15,11 +15,12 @@ Follow these constraints for every run:
 - Prioritize successful compilation over stylistic refactors.
 - Preserve business behavior while replacing framework integrations.
 - Target OpenLiberty runtime assumptions for Jakarta EE packaging, APIs, and configuration.
-- Keep a chronological migration log in `CHANGELOG.md` with ISO8601 UTC timestamps and severity levels: `info`, `warning`, `error`.
+- Keep a chronological migration log in `migration-artifacts/MONOLOUGE.log.md` with ISO8601 UTC timestamps and severity levels: `info`, `warning`, `error`.
+- Persist verbose intermediate artifacts under `migration-artifacts/` for every step, including: thinking/reasoning notes, every tool/command call with inputs, raw tool outputs, interpretation of outputs, and explicit next-step decisions.
 
 ## Required Workflow
 
-Run these steps in order and log each step outcome in `CHANGELOG.md`.
+Run these steps in order and log each step outcome in `migration-artifacts/MONOLOUGE.log.md`.
 
 1. Inspect project structure.
 2. Detect build system and framework usage.
@@ -27,7 +28,7 @@ Run these steps in order and log each step outcome in `CHANGELOG.md`.
 4. Migrate framework configuration.
 5. Refactor framework-bound source code.
 6. Compile and fix errors until build succeeds or no safe fix remains.
-7. Produce a final migration report including file changes, chronological log, full `CHANGELOG.md`, and unresolved issues.
+7. Produce a final migration report including file changes, chronological log, full `migration-artifacts/MONOLOUGE.log.md`, and unresolved issues.
 
 ## Step 1: Inspect Project Structure
 
@@ -38,7 +39,7 @@ Run these steps in order and log each step outcome in `CHANGELOG.md`.
   - CDI beans/producers
   - Quarkus extension usage (ORM, security, messaging)
   - Quarkus-specific runtime config
-- Record findings in `CHANGELOG.md`.
+- Record findings in `migration-artifacts/MONOLOUGE.log.md`.
 
 ## Step 2: Detect Migration Scope
 
@@ -110,7 +111,13 @@ If build fails:
 
 ## Step 7: Logging and Report Requirements
 
-`CHANGELOG.md` format:
+For monologue and intermediate artifact capture requirements, read:
+
+- `references/MONOLOUGE.md`
+
+- `migration-artifacts/MONOLOUGE.log.md` is the only required migration log file and single source of truth.
+
+`migration-artifacts/MONOLOUGE.log.md` format:
 
 - Use one entry per action or corrective step.
 - Include timestamp, severity, title, and details.
@@ -125,7 +132,7 @@ Final response format:
 1. `Migration Summary`
 2. `File Tree` with modified/added/removed files and short purpose notes
 3. `Step-by-Step Log` in chronological order
-4. `CHANGELOG.md Contents` full file in fenced code block
+4. `MONOLOUGE.log.md Contents` full file in fenced code block
 5. `Error Handling` with counts, blockers, mitigations, and manual intervention flag
 
 ## Execution Policy
