@@ -1,0 +1,3 @@
+name        = "gemini-cli"
+description = "Agent using Gemini CLI for Java framework migration."
+entrypoint  = "./run.sh"

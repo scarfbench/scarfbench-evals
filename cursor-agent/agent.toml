@@ -1,0 +1,3 @@
+name        = "cursor-agent"
+description = "Agent using Cursor CLI for Java framework migration."
+entrypoint  = "./run.sh"

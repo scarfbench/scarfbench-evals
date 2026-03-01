@@ -1,0 +1,3 @@
+name        = "claude-code"
+description = "Agent using Claude Code (Agent SDK CLI) for Java framework migration."
+entrypoint  = "./run.sh"
