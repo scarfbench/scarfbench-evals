@@ -161,4 +161,10 @@ echo "Work dir: $WORK_DIR"
 echo "Skill symlink: $MANAGED_SKILLS_LINK -> $PAIR_SKILL_DIR"
 
 cd "$WORK_DIR"
-gemini --yolo -p "$PROMPT"
+
+gemini \
+  "$PROMPT" \
+  --model gcp/gemini-3.1-pro-preview \
+  --yolo \
+  --output-format stream-json \
+  --debug

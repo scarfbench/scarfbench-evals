@@ -73,14 +73,14 @@ else
   exit 1
 fi
 
-if ! command -v codex >/dev/null 2>&1; then
-  echo "Error: 'codex' CLI not found in PATH." >&2
+if ! command -v opencode >/dev/null 2>&1; then
+  echo "Error: 'opencode' CLI not found in PATH." >&2
   exit 1
 fi
 
 MANAGED_ROOT="$WORK_DIR/.agent"
 MANAGED_SKILLS_LINK="$MANAGED_ROOT/skills"
-MANAGED_AGENTS="$WORK_DIR/AGENTS.md"
+MANAGED_AGENTS="$WORK_DIR/OPENCODE.md"
 MANAGED_AGENTS_BACKUP=""
 
 # Cleanup function to remove Docker artifacts and agent files
@@ -122,12 +122,12 @@ mkdir -p "$MANAGED_ROOT"
 ln -sfn "$PAIR_SKILL_DIR" "$MANAGED_SKILLS_LINK"
 
 if [[ -e "$MANAGED_AGENTS" ]]; then
-  MANAGED_AGENTS_BACKUP="$WORK_DIR/.scarfbench-agent.AGENTS.backup.$$"
+  MANAGED_AGENTS_BACKUP="$WORK_DIR/.scarfbench-agent.OPENCODE.backup.$$"
   mv "$MANAGED_AGENTS" "$MANAGED_AGENTS_BACKUP"
 fi
 
 cat > "$MANAGED_AGENTS" <<EOT
-# AGENTS.md
+# OPENCODE.md
 
 ## Skills
 A skill is a set of local instructions stored in a \`SKILL.md\` file.
@@ -156,13 +156,14 @@ Example Docker commands:
 
 The wrapper script will automatically clean up Docker resources after execution."
 
-echo "Running Codex headless for pair: $PAIR"
+echo "Running opencode Code headless for pair: $PAIR"
 echo "Work dir: $WORK_DIR"
 echo "Skill symlink: $MANAGED_SKILLS_LINK -> $PAIR_SKILL_DIR"
 
-codex exec \
-  "$PROMPT" \
-  --skip-git-repo-check \
-  --sandbox workspace-write \
-  --output-format stream-json \
-  -C "$WORK_DIR" 
+cd "$WORK_DIR"
+opencode run \
+  --model local/rits/zai-org/GLM-5-FP8 \
+  --print-logs \
+  --output-format json \
+  --log-level "WARN" \
+   "$PROMPT"

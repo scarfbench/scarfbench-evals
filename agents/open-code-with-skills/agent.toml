@@ -1,0 +1,5 @@
+solution_name = "open-code"
+model = "GLM-5-FP8"
+description = "Open code (with skills) for framework migration"
+entrypoint = "run.sh"
+variant = "with-skills"
