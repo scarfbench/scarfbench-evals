@@ -25,6 +25,23 @@ if [[ ! -d "$WORK_DIR" ]]; then
   exit 1
 fi
 
+# -----[ STEP 4 ]-----
+# Generate unique identifiers for this run to avoid Docker conflicts
+RUN_ID="scarf_$(date +%s)_$$"
+CONTAINER_NAME="${RUN_ID}_app"
+IMAGE_TAG="${RUN_ID}:latest"
+
+# Export these for the agent to use in Docker operations
+export SCARF_RUN_ID="$RUN_ID"
+export SCARF_CONTAINER_NAME="$CONTAINER_NAME"
+export SCARF_IMAGE_TAG="$IMAGE_TAG"
+export SCARF_DOCKER_PORT="0"  # Use dynamic port allocation
+
+echo "[INFO] Docker isolation enabled"
+echo "[INFO] Run ID: $RUN_ID"
+echo "[INFO] Container name: $CONTAINER_NAME"
+echo "[INFO] Image tag: $IMAGE_TAG"
+
 # Normalize the framework name
 norm_framework() {
   local raw
@@ -66,8 +83,31 @@ MANAGED_SKILLS_LINK="$MANAGED_ROOT/skills"
 MANAGED_AGENTS="$WORK_DIR/GEMINI.md"
 MANAGED_AGENTS_BACKUP=""
 
+# Cleanup function to remove Docker artifacts and agent files
 cleanup() {
   set +e
+  
+  # Clean up Docker resources
+  echo "[INFO] Cleaning up Docker resources for run: $RUN_ID"
+  
+  # Stop and remove any containers with our run ID
+  docker ps -a --filter "name=${RUN_ID}" --format "{{.Names}}" 2>/dev/null | while read -r container; do
+    echo "[INFO] Stopping container: $container"
+    docker stop "$container" 2>/dev/null || true
+    echo "[INFO] Removing container: $container"
+    docker rm "$container" 2>/dev/null || true
+  done
+  
+  # Remove images with our run ID tag
+  docker images --filter "reference=*${RUN_ID}*" --format "{{.Repository}}:{{.Tag}}" 2>/dev/null | while read -r image; do
+    echo "[INFO] Removing image: $image"
+    docker rmi "$image" 2>/dev/null || true
+  done
+  
+  # Clean up dangling images from this build
+  docker image prune -f 2>/dev/null || true
+  
+  # Clean up agent files
   if [[ -n "$MANAGED_AGENTS_BACKUP" && -f "$MANAGED_AGENTS_BACKUP" ]]; then
     mv -f "$MANAGED_AGENTS_BACKUP" "$MANAGED_AGENTS"
   else
@@ -101,7 +141,20 @@ A skill is a set of local instructions stored in a \`SKILL.md\` file.
 - If source/target is ambiguous, ask one clarifying question.
 EOT
 
-PROMPT="Migrate this Java project from ${FROM_NORMALIZED} to ${TO_NORMALIZED}. Execute fully in one run using the available local migration skill. Operate only inside the current working directory, preserve behavior, attempt compilation, and document actions/errors in CHANGELOG.md."
+PROMPT="Migrate this Java project from ${FROM_NORMALIZED} to ${TO_NORMALIZED}. Execute fully in one run using the available local migration skill. Operate only inside the current working directory, preserve behavior, attempt compilation, and document actions/errors in CHANGELOG.md.
+
+CRITICAL: For Docker operations, you MUST use these environment variables to avoid conflicts with parallel runs:
+- Container name: \$SCARF_CONTAINER_NAME (currently: $CONTAINER_NAME)
+- Image tag: \$SCARF_IMAGE_TAG (currently: $IMAGE_TAG)
+- Port mapping: Use '-p 0:8080' for dynamic port allocation
+
+Example Docker commands:
+  docker build -t \$SCARF_IMAGE_TAG .
+  docker run -d --name \$SCARF_CONTAINER_NAME -p 0:8080 \$SCARF_IMAGE_TAG
+  ASSIGNED_PORT=\$(docker port \$SCARF_CONTAINER_NAME 8080 | cut -d: -f2)
+  curl http://localhost:\$ASSIGNED_PORT/health
+
+The wrapper script will automatically clean up Docker resources after execution."
 
 echo "Running Gemini headless for pair: $PAIR"
 echo "Work dir: $WORK_DIR"
