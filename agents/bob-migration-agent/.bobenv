@@ -1,8 +1,0 @@
-# Bob CLI Environment Variables
-# Configure these variables for Bob CLI authentication and configuration
-
-# Required: Bob CLI API Key for authentication (starts with sk-)
-export BOBSHELL_API_KEY="sk-your_api_key_here"
-
-# Optional: Bob CLI URL endpoint (if using custom instance)
-# export BOBSHELL_URL="https://your-bob-instance.example.com"

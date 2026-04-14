@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Invoke Claude Code to migrate a Java app from SCARF_FROM_FRAMEWORK to SCARF_TO_FRAMEWORK.
+# Invoke your coding agent CLI to migrate a Java app from SCARF_FROM_FRAMEWORK to SCARF_TO_FRAMEWORK.
 # SCARF_WORKDIR = absolute path to the application (Java project) root.
 # Reads prompt from prompt.txt and substitutes {{ VAR }} with env var values.
 
@@ -25,4 +25,8 @@ echo "=== Prompt ==="
 echo "$PROMPT"
 echo "=============="
 
-claude -p "$PROMPT" --output-format text --verbose
+# Replace the line below with your agent CLI invocation, e.g.:
+#   claude -p "$PROMPT" --output-format text --verbose
+#   codex exec "$PROMPT" --skip-git-repo-check --sandbox danger-full-access -C "$SCARF_WORKDIR"
+#   gemini -p "$PROMPT"
+your-agent-cli "$PROMPT"

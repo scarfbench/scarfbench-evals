@@ -1,3 +1,0 @@
-name        = "codex-framework-migration"
-description = "Sample implement a simple agent using the ScarfBench framework."
-entrypoint  = "./run.sh"  # <-- Relative to the current directory.

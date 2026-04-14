@@ -1,0 +1,5 @@
+solution_name = "claude-code"
+model = "claude-opus-4.6"
+description = "Claude code (with a monolith CLAUDE.md) for framework migration"
+entrypoint = "run.sh"
+variant = "with-prompt-md"

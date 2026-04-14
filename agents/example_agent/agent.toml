@@ -1,4 +1,5 @@
-name        = "example-agent"
-description = "An example agent that demonstrates how to implement a simple agent using the ScarfBench framework."
-entrypoint  = "./run.sh"  # <-- Relative to the current directory.
-k           = 1  # The number of times to run a conversion.
+solution_name = "example-agent"
+model         = "your-model-id"
+description   = "An example agent that demonstrates how to implement a simple agent using the ScarfBench framework."
+entrypoint    = "run.sh"
+# variant = "with-skills"  # Optional: discriminator when submitting multiple variants of the same agent + model (e.g. with-skills, with-prompt-md).
