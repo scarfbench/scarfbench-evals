@@ -106,6 +106,7 @@ Use commands that write local caches to project-local directories:
 
 - Maven: `mvn -q -Dmaven.repo.local=.m2repo clean package`
 - Gradle: `./gradlew -g .gradle clean build`
+- Build and run the application as a Docker image, then execute any generated smoke tests against or within the running container
 
 If build fails:
 
