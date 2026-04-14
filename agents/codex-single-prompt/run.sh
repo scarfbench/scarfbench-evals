@@ -70,7 +70,7 @@ cleanup_docker() {
 trap cleanup_docker EXIT
 
 # Read the prompt template 
-PROMPT_TEMPLATE="$AGENT_DIR/codex.txt"
+PROMPT_TEMPLATE="$AGENT_DIR/prompt.txt"
 if [[ ! -f "$PROMPT_TEMPLATE" ]]; then
     echo "[ERROR] Prompt template not found at: $PROMPT_TEMPLATE" >&2
     exit 1
