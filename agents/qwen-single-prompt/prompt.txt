@@ -54,6 +54,24 @@ curl http://localhost:$ASSIGNED_PORT/health
 
 ---
 
+## Framework-Specific Requirements
+
+### Jakarta EE Migrations (CRITICAL)
+
+**When migrating TO Jakarta (`{{ after }}` = jakarta):**
+- You MUST use **Open Liberty** as the application server/runtime
+- Configure the application for WAR packaging compatible with Open Liberty deployment
+- Use Open Liberty-specific build plugins and dependencies
+- Target Open Liberty runtime assumptions for Jakarta EE packaging, APIs, and configuration
+- Update Dockerfile to use Open Liberty base images (e.g., `icr.io/appcafe/open-liberty:kernel-slim-java17-openj9-ubi`)
+- Configure `server.xml` for Open Liberty features as needed
+
+**When migrating FROM Jakarta (`{{ before }}` = jakarta):**
+- The source application may be running on Open Liberty
+- Preserve business logic while replacing Jakarta/Open Liberty-specific integrations
+
+---
+
 ## Migration Workflow
 
 ### 1. Dependency Migration
