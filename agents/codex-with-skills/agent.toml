@@ -1,4 +1,4 @@
-solution_name = "codex"
+solution_name = "codex-with-skills"
 model = "gpt-5.2"
 description = "Codex (with skills) for framework migration"
 entrypoint = "run.sh"

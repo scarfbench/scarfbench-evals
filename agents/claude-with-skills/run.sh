@@ -108,4 +108,12 @@ echo "Work dir: $WORK_DIR"
 echo "Skill symlink: $MANAGED_SKILLS_LINK -> $PAIR_SKILL_DIR"
 
 cd "$WORK_DIR"
-claude -p "$PROMPT" --output-format text --verbose
+claude \
+  --model aws/claude-opus-4-6 \
+  --output-format stream-json \
+  --print \
+  --verbose \
+  --tools default \
+  --add-dir "$WORK_DIR" \
+  --permission-mode bypassPermissions \
+  "$PROMPT"

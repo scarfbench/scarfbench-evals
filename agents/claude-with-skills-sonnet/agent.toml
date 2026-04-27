@@ -1,0 +1,5 @@
+solution_name = "claude-with-skills"
+model = "claude-opus-4.6"
+description = "Claude code (with skills) for framework migration"
+entrypoint = "run.sh"
+variant = "with-skills"

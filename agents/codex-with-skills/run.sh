@@ -107,8 +107,10 @@ echo "Running Codex headless for pair: $PAIR"
 echo "Work dir: $WORK_DIR"
 echo "Skill symlink: $MANAGED_SKILLS_LINK -> $PAIR_SKILL_DIR"
 
-codex -a never exec \
-  --sandbox workspace-write \
+codex exec \
+  "$PROMPT" \
   --skip-git-repo-check \
-  -C "$WORK_DIR" \
-  "$PROMPT"
+  --sandbox danger-full-access \
+  --json \
+  -C "$WORK_DIR" 
+
