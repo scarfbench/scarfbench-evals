@@ -1,0 +1,5 @@
+solution_name = "qwen-with-skills"
+model = "Qwen3-Coder-480B-A35B-Instruct-FP8"
+description = "Qwen (with skills) for framework migration"
+entrypoint = "run.sh"
+variant = "with-skills"

@@ -1,0 +1,5 @@
+solution_name = "GLM5_opencode"
+model = "glm-5-1-fp8"
+description = "opencode (with a monolith prompt) for framework migration"
+entrypoint = "run.sh"
+variant = "with-prompt-md"

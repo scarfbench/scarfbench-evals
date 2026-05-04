@@ -1,0 +1,5 @@
+solution_name = "opencode-with-skills-kimi"
+model = "kimi-k2-5"
+description = "opencode (with skills) for framework migration"
+entrypoint = "run.sh"
+variant = "with-skills"

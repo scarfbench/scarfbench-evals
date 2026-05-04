@@ -1,4 +1,4 @@
-solution_name = "gemini"
+solution_name = "gemini-with-skills"
 model = "gemini-2.5-pro"
 description = "Gemini (with skills) for framework migration"
 entrypoint = "run.sh"

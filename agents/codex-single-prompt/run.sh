@@ -8,7 +8,6 @@ AGENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR="${SCARF_WORK_DIR:-}"
 FRAMEWORK_FROM="${SCARF_FRAMEWORK_FROM:-}"
 FRAMEWORK_TO="${SCARF_FRAMEWORK_TO:-}"
-MODEL="${MODEL_NAME:-}"
 
 # Validate required environment variables
 if [[ -z "$WORK_DIR" ]]; then
@@ -82,9 +81,6 @@ PROMPT=$(cat "$PROMPT_TEMPLATE" | sed "s/{{ before }}/$FRAMEWORK_FROM/g" | sed "
 echo "[INFO] Starting Codex migration agent"
 echo "[INFO] Working directory: $WORK_DIR"
 echo "[INFO] Migration: $FRAMEWORK_FROM -> $FRAMEWORK_TO"
-if [[ -n "$MODEL" ]]; then
-    echo "[INFO] Model: $MODEL"
-fi
 echo "[INFO] Run ID: $RUN_ID"
 echo "[INFO] Container name: $CONTAINER_NAME"
 echo "[INFO] Image tag: $IMAGE_TAG"
@@ -92,18 +88,12 @@ echo "[INFO] Image tag: $IMAGE_TAG"
 # Change to working directory and invoke Codex CLI
 cd "$WORK_DIR"
 
-# Only pass --model when agent.toml pins one explicitly.
-MODEL_ARGS=()
-if [[ -n "$MODEL" ]]; then
-    MODEL_ARGS=(--model "$MODEL")
-fi
-
 # Run Codex with the specified parameters
 codex exec \
   "$PROMPT" \
-  "${MODEL_ARGS[@]}" \
   --skip-git-repo-check \
   --sandbox danger-full-access \
+  --json \
   -C "$WORK_DIR" 
 
 EXIT_CODE=$?
@@ -116,3 +106,4 @@ fi
 
 # Cleanup will run automatically via trap
 exit $EXIT_CODE
+

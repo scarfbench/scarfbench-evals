@@ -1,0 +1,5 @@
+solution_name = "qwen"
+model = "qwen"
+description = "Qwen (with a monolith prompt) for framework migration"
+entrypoint = "run.sh"
+variant = "with-prompt-md"

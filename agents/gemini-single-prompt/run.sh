@@ -37,7 +37,7 @@ RUN_ID="scarf_$(date +%s)_$$"
 CONTAINER_NAME="${RUN_ID}_app"
 IMAGE_TAG="${RUN_ID}:latest"
 
-# Export these for Codex to use
+# Export these for Gemini to use
 export SCARF_RUN_ID="$RUN_ID"
 export SCARF_CONTAINER_NAME="$CONTAINER_NAME"
 export SCARF_IMAGE_TAG="$IMAGE_TAG"
@@ -78,29 +78,30 @@ fi
 # Replace template variables in the prompt
 PROMPT=$(cat "$PROMPT_TEMPLATE" | sed "s/{{ before }}/$FRAMEWORK_FROM/g" | sed "s/{{ after }}/$FRAMEWORK_TO/g")
 
-echo "[INFO] Starting Codex migration agent"
+echo "[INFO] Starting Gemini migration agent"
 echo "[INFO] Working directory: $WORK_DIR"
 echo "[INFO] Migration: $FRAMEWORK_FROM -> $FRAMEWORK_TO"
 echo "[INFO] Run ID: $RUN_ID"
 echo "[INFO] Container name: $CONTAINER_NAME"
 echo "[INFO] Image tag: $IMAGE_TAG"
 
-# Change to working directory and invoke Codex CLI
+# Change to working directory and invoke Gemini CLI
 cd "$WORK_DIR"
 
-# Run Codex with the specified parameters
-codex exec \
+# Run Gemini with the specified parameters
+gemini \
   "$PROMPT" \
-  --skip-git-repo-check \
-  --sandbox danger-full-access \
-  -C "$WORK_DIR" 
+  --model gcp/gemini-3.1-pro-preview \
+  --yolo \
+  --debug
+
 
 EXIT_CODE=$?
 
 if [[ $EXIT_CODE -eq 0 ]]; then
-    echo "[INFO] Codex agent completed successfully"
+    echo "[INFO] Gemini agent completed successfully"
 else
-    echo "[ERROR] Codex agent failed with exit code: $EXIT_CODE" >&2
+    echo "[ERROR] Gemini agent failed with exit code: $EXIT_CODE" >&2
 fi
 
 # Cleanup will run automatically via trap
